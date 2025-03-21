@@ -3,20 +3,20 @@ import type { GetShortUrlById } from "@/domain/use-cases/get-short-url-by-id";
 import type { PrismaClient, ShortUrl } from "@prisma/client";
 import type { Request } from "express";
 
-export class PrismaGetShortUrlByIdRepository implements GetShortUrlByIdRepository {
+export class PrismaGetShortUrlByIdRepository
+  implements GetShortUrlByIdRepository
+{
   constructor(private readonly prisma: PrismaClient) {}
-  
-  async execute (id: string):  Promise<ShortUrl | null> {
+
+  async execute(id: string): Promise<ShortUrl | null> {
     return await this.prisma.shortUrl.findUnique({
       where: {
         id: id,
         expiresAt: {
-          gt: new Date()
+          gt: new Date(),
         },
-        deletedAt: null
-      }
+        deletedAt: null,
+      },
     });
   }
-  
-  
 }

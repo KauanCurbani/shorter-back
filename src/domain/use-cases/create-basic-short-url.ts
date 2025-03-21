@@ -5,14 +5,15 @@ import { ValidationError } from "@/utils/errors";
 import type { GetShortUrlByUrlRepository } from "../repositories/get-short-url-by-url-repository";
 
 export class CreateBasicShortUrl {
-  constructor(private readonly saveShortUrlRepo: SaveShortUrlRepository,
-  private readonly getShortUrlRepo: GetShortUrlByUrlRepository
+  constructor(
+    private readonly saveShortUrlRepo: SaveShortUrlRepository,
+    private readonly getShortUrlRepo: GetShortUrlByUrlRepository,
   ) {}
 
   async execute(req: Request) {
     const { error, data } = schema.safeParse(req.body);
     if (error) throw new ValidationError("Body invalid");
-    
+
     const shortUrl = await this.getShortUrlRepo.execute(data.url);
     if (shortUrl) {
       return shortUrl;

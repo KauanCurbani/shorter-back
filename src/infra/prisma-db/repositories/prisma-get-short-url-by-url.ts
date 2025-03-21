@@ -2,16 +2,16 @@ import type { GetShortUrlByUrlRepository } from "@/domain/repositories/get-short
 import type { PrismaClient, ShortUrl } from "@prisma/client";
 
 export class PrismaGetShortUrlByUrl implements GetShortUrlByUrlRepository {
-  constructor(private readonly prisma: PrismaClient) { }
-  
+  constructor(private readonly prisma: PrismaClient) {}
+
   async execute(url: string): Promise<ShortUrl | null> {
     const response = await this.prisma.shortUrl.findFirst({
       where: {
         url: url,
-        deletedAt: null
-      }
+        deletedAt: null,
+      },
     });
-    
+
     return response;
   }
 }

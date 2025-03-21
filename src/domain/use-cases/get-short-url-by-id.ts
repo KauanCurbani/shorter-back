@@ -11,10 +11,10 @@ export class GetShortUrlById {
     const { error, data } = schema.safeParse(req.params);
 
     if (error) throw new ValidationError("Invalid input");
-    
+
     const shortUrl = await this.getByIdRepo.execute(data.id);
     if (!shortUrl) throw new NotFoundError("Short URL not found");
-    
+
     return shortUrl;
   }
 }

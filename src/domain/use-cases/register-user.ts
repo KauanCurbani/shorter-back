@@ -8,7 +8,7 @@ import * as bcrypt from "bcrypt";
 export class RegisterUserUseCase {
   constructor(
     private readonly getUserByEmailRepo: GetUserByEmailRepository,
-    private readonly saveUserRepo: SaveUserRepository
+    private readonly saveUserRepo: SaveUserRepository,
   ) {}
 
   async execute(req: Request) {
@@ -16,13 +16,14 @@ export class RegisterUserUseCase {
     if (error) throw new ValidationError("Invalid data body");
 
     const { fullName, email, password, passwordConfirmation } = data;
-    if (password !== passwordConfirmation) throw new ValidationError("Passwords do not match");
+    if (password !== passwordConfirmation)
+      throw new ValidationError("Passwords do not match");
 
     const user = await this.getUserByEmailRepo.execute(email);
     if (user) throw new ValidationError("Email already in use");
 
     const hashedPassword = await this.hashPassword(password);
-    
+
     const newUser = await this.saveUserRepo.execute({
       name: fullName,
       email,

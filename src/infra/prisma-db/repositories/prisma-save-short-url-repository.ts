@@ -6,8 +6,8 @@ export class PrismaSaveShortUrlRepository implements SaveShortUrlRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
   async execute(url: string, expiresAt: Date) {
-    const id = nanoid(7)
-    
+    const id = nanoid(7);
+
     const shortUrl = await this.prisma.shortUrl.create({
       data: {
         id,
