@@ -6,22 +6,20 @@ import { prisma } from "@/infra/prisma-db/prisma";
 import { PrismaGetShortUrlByUrl } from "@/infra/prisma-db/repositories/prisma-get-short-url-by-url";
 import { GetShortUrlById } from "@/domain/use-cases/get-short-url-by-id";
 import { PrismaGetShortUrlByIdRepository } from "@/infra/prisma-db/repositories/prisma-get-short-url-by-id";
+import { PrismaSetToExpiredShortUrlRepository } from "@/infra/prisma-db/repositories/prisma-set-to-expired-short-url";
 
 export const publicController = Router();
 const createBasicShortUrlUseCase = new CreateBasicShortUrl(
   new PrismaSaveShortUrlRepository(prisma),
-  new PrismaGetShortUrlByUrl(prisma),
+  new PrismaGetShortUrlByUrl(prisma)
 );
 const getShortUrlByUrl = new GetShortUrlById(
   new PrismaGetShortUrlByIdRepository(prisma),
+  new PrismaSetToExpiredShortUrlRepository(prisma)
 );
 
 publicController.post("/short-url", async (req, res) => {
-  await handleRequest(
-    (req) => createBasicShortUrlUseCase.execute(req),
-    req,
-    res,
-  );
+  await handleRequest((req) => createBasicShortUrlUseCase.execute(req), req, res);
 });
 
 publicController.get("/short-url/:id", async (req, res) => {

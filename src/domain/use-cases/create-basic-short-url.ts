@@ -7,7 +7,7 @@ import type { GetShortUrlByUrlRepository } from "../repositories/get-short-url-b
 export class CreateBasicShortUrl {
   constructor(
     private readonly saveShortUrlRepo: SaveShortUrlRepository,
-    private readonly getShortUrlRepo: GetShortUrlByUrlRepository,
+    private readonly getShortUrlRepo: GetShortUrlByUrlRepository
   ) {}
 
   async execute(req: Request) {
@@ -15,9 +15,7 @@ export class CreateBasicShortUrl {
     if (error) throw new ValidationError("Body invalid");
 
     const shortUrl = await this.getShortUrlRepo.execute(data.url);
-    if (shortUrl) {
-      return shortUrl;
-    }
+    if (shortUrl) return shortUrl;
 
     let expiresAt = new Date();
     expiresAt.setHours(expiresAt.getHours() + 24);
