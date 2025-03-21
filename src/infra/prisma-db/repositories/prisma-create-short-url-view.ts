@@ -5,12 +5,12 @@ export class PrismaCreateShortUrlViewRepository implements CreateShortUrlViewRep
   constructor(private readonly prisma: PrismaClient) {}
 
   async execute(urlId: string, userAgent?: string): Promise<ShortUrlView> {
-    const shortUrlView = await this.prisma.shortUrlView.create({
+    const view = await this.prisma.shortUrlView.create({
       data: {
         urlId: urlId,
         userAgent,
       },
     });
-    return shortUrlView;
+    return view;
   }
 }
