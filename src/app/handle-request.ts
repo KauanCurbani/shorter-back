@@ -13,5 +13,7 @@ export async function handleRequest(
     if (e instanceof BaseError)
       res.status(e.statusCode).json({ message: e.message });
     else res.status(500).json({ message: "Unexpected error", error: e });
+
+    console.error(e);
   }
 }

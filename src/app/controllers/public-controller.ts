@@ -27,10 +27,9 @@ const consumeShort = new ConsumeShortUrl(
 publicController.post("/short-url", async (req, res) => {
   await handleRequest((req) => createBasicShortUrlUseCase.execute(req), req, res);
 });
-
 publicController.get("/short-url/:id", async (req, res) => {
   await handleRequest((req) => getShortUrlByUrl.execute(req), req, res);
 });
-publicController.get("/short-url/:id/consume", async (req, res) => {
+publicController.get("/short-url/consume/:id", async (req, res) => {
   await handleRequest((req) => consumeShort.execute(req), req, res);
 });
