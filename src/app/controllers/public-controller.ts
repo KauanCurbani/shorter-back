@@ -21,7 +21,7 @@ const getShortUrlByUrl = new GetShortUrlById(
 );
 const consumeShort = new ConsumeShortUrl(
   new PrismaGetShortUrlByIdRepository(prisma),
-  new PrismaCreateShortUrlViewRepository(prisma)
+  new PrismaCreateShortUrlViewRepository()
 );
 
 publicController.post("/short-url", async (req, res) => {
